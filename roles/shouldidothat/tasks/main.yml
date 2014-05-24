@@ -1,0 +1,18 @@
+---
+- name: clone shouldidothat-docker repo
+  git: repo=ssh://git@github.com/eljojo/shouldidothat-docker.git dest=/root/shouldidothat-docker accept_hostkey=true
+
+- name: copy conf.json file
+  copy: src=keys/shouldidothat/conf.json dest=/root/shouldidothat-docker/conf.json owner=root group=root mode=0600
+
+- name: create shouldidothat docker image
+  command: docker build -t shouldidothat . chdir=/root/shouldidothat-docker
+
+- name: create shouldidothat docker container
+  docker: image=shouldidothat name=shouldidothat state=present
+
+# - name: Set up shouldidothat service
+#   action: template src=shouldidothat.service.j2 dest=/etc/systemd/system/shouldidothat.service mode=0777 owner=root group=root
+# 
+# - name: enable shouldidothat service
+#   command: systemctl enable shouldidothat.service

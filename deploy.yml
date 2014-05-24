@@ -1,0 +1,6 @@
+---
+- name: deploy services to the server
+  hosts: all
+  user: root
+  roles:
+    - shouldidothat

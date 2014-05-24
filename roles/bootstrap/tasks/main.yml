@@ -19,6 +19,7 @@
    - ntp
    - python-pycurl
    - curl
+   - python-pip
 
 - name: Uninstall unwanted packages
   action: apt pkg={{ item }} state=absent
@@ -37,3 +38,11 @@
   file: content='Europe/Berlin' dest=/etc/timezone
   notify: update tzdata
 
+- name: configure docker
+  action: template src=docker.j2 dest=/etc/default/docker mode=0644 owner=root group=root
+
+- name: make sure docker is running
+  service: name=docker state=started enabled=yes
+
+- name: install docker-py
+  pip: name=docker-py
