@@ -12,6 +12,10 @@
   docker: image=shouldidothat name=shouldidothat-container state=absent
   ignore_errors: yes
 
+- name: stop shouldidothat service
+  service: name=shouldidothat state=stopped
+  ignore_errors: yes
+
 - name: create shouldidothat docker container
   docker: image=shouldidothat name=shouldidothat-container state=present
 
