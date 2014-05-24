@@ -5,8 +5,8 @@ After=docker.service
 
 [Service]
 Restart=always
-ExecStart=/usr/bin/docker start -a shouldidothat
-ExecStop=/usr/bin/docker stop -t 2 shouldidothat
+ExecStart=/usr/bin/docker start -a shouldidothat-container
+ExecStop=/usr/bin/docker stop -t 2 shouldidothat-container
 
 [Install]
 WantedBy=multi-user.target
