@@ -25,6 +25,8 @@
   action: apt pkg={{ item }} state=absent
   with_items:
     - consolekit
+    - avahi-daemon
+    - whoopsie
 
 # systemd has to be installed in a different way
 # https://groups.google.com/forum/#!topic/ansible-project/aoGgHrNCICs
