@@ -25,6 +25,11 @@
   with_items:
     - consolekit
 
+# systemd has to be installed in a different way
+# https://groups.google.com/forum/#!topic/ansible-project/aoGgHrNCICs
+- name: Install systemd-sysv
+  shell: echo ""Yes, do as I say!"" | apt-get install -y -q --force-yes systemd-sysv
+
 - name: set /etc/localtime to Europe/Berlin
   command: /bin/cp /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 
