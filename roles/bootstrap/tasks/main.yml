@@ -20,6 +20,11 @@
    - python-pycurl
    - curl
 
+- name: Uninstall unwanted packages
+  action: apt pkg={{ item }} state=absent
+  with_items:
+    - consolekit
+
 - name: set /etc/localtime to Europe/Berlin
   command: /bin/cp /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 
