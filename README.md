@@ -10,3 +10,10 @@ This is supposed to be run using Ansible 1.6.1 on a DigitalOcean Debian 7.0 x64 
 First, copy the ``hosts.example`` file into ``hosts`` and fill it up with your hosts.
 
 
+## Bootstrapping
+
+Run ``ansible-playbook -i hosts bootstrap.yml`` to set up the server.
+
+Add ``-vv`` if you want to debug.
+
+

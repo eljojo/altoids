@@ -1,0 +1,29 @@
+---
+- name: add docker repo
+  apt_repository: repo='deb https://get.docker.io/ubuntu docker main' state=present
+
+- name: add docker.io apt key
+  apt_key: url=http://keyserver.ubuntu.com/pks/lookup?op=get&fingerprint=on&search=0x36A1D7869245C8950F966E92D8576A8BA88D21E9 state=present
+
+- name: Update apt cache
+  apt: update_cache=yes
+
+- name: Install common packages
+  action: apt pkg={{ item }} state=installed
+  with_items:
+   # - build-essential
+   - htop
+   - vim
+   - git
+   - lxc-docker
+   - ntp
+   - python-pycurl
+   - curl
+
+- name: set /etc/localtime to Europe/Berlin
+  command: /bin/cp /usr/share/zoneinfo/Europe/Berlin /etc/localtime
+
+- name: set /etc/timezone to Europe/Berlin
+  file: content='Europe/Berlin' dest=/etc/timezone
+  notify: update tzdata
+
