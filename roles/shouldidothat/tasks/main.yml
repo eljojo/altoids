@@ -5,16 +5,20 @@
 - name: copy conf.json file
   copy: src=keys/shouldidothat/conf.json dest=/root/shouldidothat-docker/conf.json owner=root group=root mode=0600
 
-- name: create shouldidothat docker image
-  command: docker build -t shouldidothat . chdir=/root/shouldidothat-docker
-
-- name: remove shouldidothat-container in case it exists
-  docker: image=shouldidothat name=shouldidothat-container state=absent
-  ignore_errors: yes
-
-- name: stop shouldidothat service
+- name: stop shouldidothat service if possible
   service: name=shouldidothat state=stopped
   ignore_errors: yes
+
+- name: remove shouldidothat-container in case it exists
+  command: docker rm shouldidothat-container
+  ignore_errors: yes
+
+- name: remove shouldidothat docker image in case it exists
+  command: docker rmi shouldidothat
+  ignore_errors: yes
+
+- name: create shouldidothat docker image
+  command: docker build -t shouldidothat . chdir=/root/shouldidothat-docker
 
 - name: create shouldidothat docker container
   docker: image=shouldidothat name=shouldidothat-container state=present
