@@ -27,6 +27,13 @@
     - consolekit
     - avahi-daemon
     - whoopsie
+    - exim4
+    - bsd-mailx
+    - exim4-base
+    - exim4-config
+
+- name: Autoremove unneded packages
+  command: apt-get -y autoremove
 
 # systemd has to be installed in a different way
 # https://groups.google.com/forum/#!topic/ansible-project/aoGgHrNCICs
