@@ -1,32 +1,34 @@
 ---
-- name: clone shouldidothat-docker repo
-  git: repo=ssh://git@github.com/eljojo/shouldidothat-docker.git dest=/root/shouldidothat-docker accept_hostkey=true
+- name: Create /etc/shouldidothat
+  action: file path=/etc/shouldidothat state=directory owner=root group=root
 
-- name: copy conf.json file
-  copy: src=keys/shouldidothat/conf.json dest=/root/shouldidothat-docker/conf.json owner=root group=root mode=0600
+- name: copy conf.json file to /etc/shouldidothat
+  copy: src=keys/shouldidothat/conf.json dest=/etc/shouldidothat/conf.json owner=root group=root mode=0600
 
-- name: stop shouldidothat service if possible
+- name: stop shouldidothat service if exists
   service: name=shouldidothat state=stopped
   ignore_errors: yes
 
-- name: remove shouldidothat-container in case it exists
-  command: docker rm shouldidothat-container
+- name: remove shouldidothat-container if exists
+  command: docker rm -f shouldidothat
   ignore_errors: yes
 
-- name: remove shouldidothat docker image in case it exists
-  command: docker rmi shouldidothat
+- name: remove shouldidothat docker image if exists
+  command: docker rmi -f eljojo/shouldidothat
   ignore_errors: yes
 
-- name: create shouldidothat docker image
-  command: docker build -t shouldidothat . chdir=/root/shouldidothat-docker
-
-- name: create shouldidothat docker container
-  docker: image=shouldidothat name=shouldidothat-container state=present
+- name: pull eljojo/shouldidothat docker image
+  command: docker pull eljojo/shouldidothat
 
 - name: Set up shouldidothat service
   action: template src=shouldidothat.service.j2 dest=/lib/systemd/system/shouldidothat.service mode=0644 owner=root group=root
-  notify: reload systemd
 
 - name: enable shouldidothat service
-  service: name=shouldidothat enabled=yes state=started
-  # command: systemctl enable shouldidothat.service
+  # service: name=shouldidothat enabled=yes
+  command: systemctl enable shouldidothat.service
+
+- name: reload systemd
+  command: systemctl --system daemon-reload
+
+- name: start shouldidothat service
+  service: name=shouldidothat state=started
