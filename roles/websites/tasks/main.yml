@@ -15,10 +15,10 @@
   file: path=/var/www owner=root group=root mode=0644 state=directory
 
 - name: Pull eljojo.net website from github
-  git: repo=ssh://git@github.com/eljojo/eljojo.net.git dest=/var/www/eljojo.net
+  git: repo=ssh://git@github.com/eljojo/eljojo.net.git dest=/var/www/eljojo.net accept_hostkey=True
   
 - name: Pull ajipirijou.com website from github
-  git: repo=ssh://git@github.com/eljojo/ajipirijou.git dest=/var/www/ajipirijou.com version=pictures
+  git: repo=ssh://git@github.com/eljojo/ajipirijou.git dest=/var/www/ajipirijou.com version=pictures accept_hostkey=True
 
 - name: pull eljojo/altoids-websites docker image
   command: docker pull eljojo/altoids-websites
