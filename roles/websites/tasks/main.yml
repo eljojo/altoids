@@ -1,0 +1,37 @@
+---
+- name: stop altoids-websites service if exists
+  service: name=altoids-websites state=stopped
+  ignore_errors: yes
+
+- name: remove altoids-websites container if exists
+  command: docker rm -f altoids-websites
+  ignore_errors: yes
+
+- name: remove altoids-websites docker image if exists
+  command: docker rmi -f eljojo/altoids-websites
+  ignore_errors: yes
+
+- name: create /var/www
+  file: path=/var/www owner=root group=root mode=0644 state=directory
+
+- name: Pull eljojo.net website from github
+  git: repo=ssh://git@github.com/eljojo/eljojo.net.git dest=/var/www/eljojo.net
+  
+- name: Pull ajipirijou.com website from github
+  git: repo=ssh://git@github.com/eljojo/ajipirijou.git dest=/var/www/ajipirijou.com version=pictures
+
+- name: pull eljojo/altoids-websites docker image
+  command: docker pull eljojo/altoids-websites
+
+- name: Set up altoids-websites service
+  action: template src=altoids-websites.service.j2 dest=/lib/systemd/system/altoids-websites.service mode=0644 owner=root group=root
+
+- name: enable altoids-websites service
+  # service: name=altoids-websites enabled=yes
+  command: systemctl enable altoids-websites.service
+
+- name: reload systemd
+  command: systemctl --system daemon-reload
+
+- name: start altoids-websites service
+  service: name=altoids-websites state=started

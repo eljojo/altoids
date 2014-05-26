@@ -1,0 +1,12 @@
+[Unit]
+Description=Altoids Websites container
+Author=Jojo
+After=docker.service
+
+[Service]
+Restart=always
+ExecStart=/bin/bash -c '/usr/bin/docker start -a altoids-websites || docker run -p 80:80 -v /var/www/eljojo.net:/var/www/eljojo.net:ro -v /var/www/ajipirijou.com:/var/www/ajipirijou.com:ro --name altoids-websites eljojo/altoids-websites'
+ExecStop=/usr/bin/docker stop -t 2 altoids-websites
+
+[Install]
+WantedBy=multi-user.target
