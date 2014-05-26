@@ -7,9 +7,9 @@
   command: docker rm -f altoids-websites
   ignore_errors: yes
 
-- name: remove altoids-websites docker image if exists
-  command: docker rmi -f eljojo/altoids-websites
-  ignore_errors: yes
+# - name: remove altoids-websites docker image if exists
+#   command: docker rmi -f eljojo/altoids-websites
+#   ignore_errors: yes
 
 - name: create /var/www
   file: path=/var/www owner=root group=root mode=0644 state=directory

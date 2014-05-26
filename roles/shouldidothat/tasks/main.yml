@@ -13,9 +13,9 @@
   command: docker rm -f shouldidothat
   ignore_errors: yes
 
-- name: remove shouldidothat docker image if exists
-  command: docker rmi -f eljojo/shouldidothat
-  ignore_errors: yes
+# - name: remove shouldidothat docker image if exists
+#   command: docker rmi -f eljojo/shouldidothat
+#   ignore_errors: yes
 
 - name: pull eljojo/shouldidothat docker image
   command: docker pull eljojo/shouldidothat
